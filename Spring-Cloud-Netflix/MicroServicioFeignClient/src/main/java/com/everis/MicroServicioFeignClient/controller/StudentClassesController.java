@@ -63,7 +63,7 @@ public class StudentClassesController {
 			throw new ResourceNotFoundException("The class with the id-"+ class_id +" does not exist!");
 		}
 		
-		return feignClient.FindById(service.FindIdStdClassByIdClass(class_id));
+		return feignClient.FindAllById(service.FindIdStdClassByIdClass(class_id));
 	}
 	
 	

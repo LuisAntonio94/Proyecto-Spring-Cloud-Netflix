@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "EurekaClient", fallback = VideoClientFallback.class)
 public interface IFeignClient {
 
-	//List<StudentBean>
+	
 	@GetMapping("/FindAll")
 	ResponseEntity<?> FindAll();
 	
-	@GetMapping("/FindById/{ids}")
-	public ResponseEntity<?> FindById(@Valid @PathVariable("ids") List<Integer> ids);
+	@GetMapping("/FindById/{student_id}")
+	public ResponseEntity<?> FindById(@Valid @PathVariable int student_id);
+	
+	@GetMapping("/FindAllById/{ids}")
+	public ResponseEntity<?> FindAllById(@Valid @PathVariable("ids") List<Integer> ids);
 	
 }

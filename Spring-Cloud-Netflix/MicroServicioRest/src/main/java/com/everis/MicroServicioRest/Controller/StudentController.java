@@ -24,8 +24,13 @@ public class StudentController {
 		return new ResponseEntity<>(studentService.FindAll(), HttpStatus.OK);
 	}
 	
-	@GetMapping("/FindById/{ids}")
-	public ResponseEntity<?> FindById(@Valid @PathVariable("ids") List<Integer> ids) {
+	@GetMapping("/FindById/{student_id}")
+	public ResponseEntity<?> FindById(@Valid @PathVariable int student_id) {
+		return new ResponseEntity<>(studentService.FindById(student_id), HttpStatus.OK);
+	}
+	
+	@GetMapping("/FindAllById/{ids}")
+	public ResponseEntity<?> FindAllById(@Valid @PathVariable("ids") List<Integer> ids) {
 		return new ResponseEntity<>(studentService.FindAllById(ids), HttpStatus.OK);
 	}
 }

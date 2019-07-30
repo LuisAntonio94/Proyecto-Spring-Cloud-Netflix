@@ -40,6 +40,13 @@ public class ClassesServiceImp implements IClassesService{
 		repoStudentClass.saveAll(lista);
 		logger.info("Class is inserted!!!");
 		
+		/*
+		ClassesEntity classs = repository.save(classes);
+		
+		classes.getStudentsClasses().forEach(StudentClassesEntity -> StudentClassesEntity.setClasses(classs));
+		
+		repoStudentClass.saveAll(classes.getStudentsClasses());
+		*/
 		return classs;
 	}
 

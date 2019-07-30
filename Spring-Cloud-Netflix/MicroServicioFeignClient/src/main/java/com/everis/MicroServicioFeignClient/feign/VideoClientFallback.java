@@ -15,9 +15,14 @@ public class VideoClientFallback implements IFeignClient {
 	public ResponseEntity<?> FindAll() {
 		return new ResponseEntity<>("Inactive service, we show the message thanks to Circuit Breaker (Hystrix)", HttpStatus.OK);
 	}
+	
+	@Override
+	public ResponseEntity<?> FindById(@Valid int student_id) {
+		return new ResponseEntity<>("Inactive service, we show the message thanks to Circuit Breaker (Hystrix)", HttpStatus.OK);
+	}
 
 	@Override
-	public ResponseEntity<?> FindById(@Valid List<Integer> ids) {
+	public ResponseEntity<?> FindAllById(@Valid List<Integer> ids) {
 		return new ResponseEntity<>("Inactive service, we show the message thanks to Circuit Breaker (Hystrix)", HttpStatus.OK);
 	}
 
