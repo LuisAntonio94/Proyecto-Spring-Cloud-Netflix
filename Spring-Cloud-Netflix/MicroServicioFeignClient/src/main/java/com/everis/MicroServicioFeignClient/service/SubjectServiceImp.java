@@ -1,7 +1,10 @@
 package com.everis.MicroServicioFeignClient.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +14,24 @@ import com.everis.MicroServicioFeignClient.repository.SubjectRepository;
 @Service
 public class SubjectServiceImp implements ISubjectService{
 
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	SubjectRepository repository;
 	
 	@Override
 	public SubjectsEntity save(SubjectsEntity subject) {
-		return repository.save(subject);
+		
+		SubjectsEntity objSubj = null;
+		try {
+			objSubj = repository.save(subject);
+			logger.info("Subject inserted!!!");
+			return objSubj;
+		}
+		catch(Exception e) {
+			logger.error(e.getMessage());
+			return objSubj;
+		}
 	}
 
 	@Override
@@ -26,12 +41,30 @@ public class SubjectServiceImp implements ISubjectService{
 
 	@Override
 	public SubjectsEntity FindById(int subject_id) {
-		return repository.findById(subject_id).get();
+		
+		Optional<SubjectsEntity> objOpt = repository.findById(subject_id);
+		
+		SubjectsEntity objsubj = null;
+		
+		if(objOpt.isPresent())
+			objsubj = repository.findById(subject_id).get();
+		
+		return objsubj;
 	}
 
 	@Override
 	public SubjectsEntity update(SubjectsEntity subject) {
-		return repository.save(subject);
+		
+		SubjectsEntity objSubj = null;
+		try {
+			objSubj = repository.save(subject);
+			logger.info("Subject updated!!!");
+			return objSubj;
+		}
+		catch(Exception e) {
+			logger.error(e.getMessage());
+			return objSubj;
+		}
 	}
 
 	@Override
@@ -40,10 +73,11 @@ public class SubjectServiceImp implements ISubjectService{
 		
 		try{
 			repository.deleteById(subject_id);
+			logger.info("Subject deleted!!!");
 			valor = true;
 		}
 		catch(Exception e) {
-			e.getMessage();
+			logger.error(e.getMessage());
 		}
 		return valor;
 	}

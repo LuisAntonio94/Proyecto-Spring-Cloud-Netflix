@@ -20,7 +20,8 @@ public class StudentServiceImp implements IStudentService {
 		return studentRepository.findAll();
 	}
 
-	public List<StudentEntity> FindAllById(Iterable<Integer> ids) {
+	@Override
+	public List<StudentEntity> FindAllById(List<Integer> ids) {
 		
 		return studentRepository.findAllById(ids);
 	}

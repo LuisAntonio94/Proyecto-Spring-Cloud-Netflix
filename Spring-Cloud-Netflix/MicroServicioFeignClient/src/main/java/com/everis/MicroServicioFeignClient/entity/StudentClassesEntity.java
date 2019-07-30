@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -24,6 +26,8 @@ public class StudentClassesEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int studentClasses_id;
 	
+	@Min(value =  1, message = "student_id must be between 1 and 2 characters long")
+	@Max(value = 99, message = "student_id must be between 1 and 2 characters long")
 	private int student_id;
 	
 	@ManyToOne(cascade = CascadeType.ALL)

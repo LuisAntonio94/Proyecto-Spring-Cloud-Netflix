@@ -2,11 +2,13 @@ package com.everis.MicroServicioFeignClient.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.everis.MicroServicioFeignClient.entity.ClassesEntity;
 import com.everis.MicroServicioFeignClient.entity.StudentClassesEntity;
 import com.everis.MicroServicioFeignClient.repository.ClassesRepository;
 import com.everis.MicroServicioFeignClient.repository.StudentClassesRepository;
@@ -14,6 +16,8 @@ import com.everis.MicroServicioFeignClient.repository.StudentClassesRepository;
 @Service
 public class StudentClassesServiceImp implements IStudentClassesService {
 
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	StudentClassesRepository repository;
 	
@@ -21,8 +25,18 @@ public class StudentClassesServiceImp implements IStudentClassesService {
 	ClassesRepository repoclass;
 	
 	@Override
-	public StudentClassesEntity save(StudentClassesEntity studentClasses_id) {
-		return repository.saveAndFlush(studentClasses_id);
+	public StudentClassesEntity save(StudentClassesEntity studentClasses) {
+		
+		StudentClassesEntity stdCls = null;
+		try {
+			stdCls = repository.save(studentClasses);
+			logger.info("StudentClass inserted!!!");
+			return stdCls;
+		}
+		catch(Exception e) {
+			logger.error(e.getMessage());
+			return stdCls;
+		}
 	}
 
 	@Override
@@ -33,33 +47,70 @@ public class StudentClassesServiceImp implements IStudentClassesService {
 	
 	@Override
 	public StudentClassesEntity FindById(int class_id) {
-		return repository.findById(class_id).get();
+		
+		Optional<StudentClassesEntity> objOpt = repository.findById(class_id);
+		
+		StudentClassesEntity objStdClass = null;
+		
+		if(objOpt.isPresent())
+			objStdClass = repository.findById(class_id).get();
+		
+		return objStdClass;
 	}
 
 	
 	@Override
 	public List<StudentClassesEntity> FindByIdClass(int class_id) {
-		ClassesEntity objClass =  new ClassesEntity();
-		objClass.setClass_id(class_id);
 		
-		List<StudentClassesEntity> listporId = new ArrayList<>();
+		//Creo un ArrayList  para agregar los objetos que coincidan con el id de la clase
+		List<StudentClassesEntity> listxId = new ArrayList<>();
 		
+		//Creo un ArrayList para listar todos los SudentsClasses
 		List<StudentClassesEntity> ListstdClass = repository.findAll();
 		
+		//Recorro cada objeto de la Lista de los StudentClasses para comparar su id de clase 
+		//y añadirle a la Lista de objetos que coincidan con el id de clase mandado por parametro
 		for(StudentClassesEntity stdCl : ListstdClass) {
-			
-			if(stdCl.getClasses().getClass_id() == class_id) {
-				listporId.add(stdCl);
-			}
-			
+			if(stdCl.getClasses().getClass_id() == class_id)
+				listxId.add(stdCl);
 		}
-		return listporId;
+		
+		return listxId;
+	}
+	
+	@Override
+	public List<Integer> FindIdStdClassByIdClass(int class_id) {
+				
+		//Creo un ArrayList  para agregar los objetos que coincidan con el id de la clase
+		List<Integer> listIdxIdClass = new ArrayList<>();
+		
+		//Creo un ArrayList para listar todos los SudentsClasses
+		List<StudentClassesEntity> ListstdClass = repository.findAll();
+				
+		//Recorro cada objeto de la Lista de los StudentClasses para comparar su id de clase 
+		//y añadirle a la Lista de objetos que coincidan con el id de clase mandado por parametro
+		for(StudentClassesEntity stdCl : ListstdClass) {
+			if(stdCl.getClasses().getClass_id() == class_id)
+				listIdxIdClass.add(stdCl.getStudent_id());
+		}
+				
+		return listIdxIdClass;
 	}
 	
 
 	@Override
 	public StudentClassesEntity update(StudentClassesEntity studentClasses) {
-		return repository.save(studentClasses);
+		
+		StudentClassesEntity objStdCls = null;
+		try {
+			objStdCls = repository.save(studentClasses);
+			logger.info("StudentClass updated!!!");
+			return objStdCls;
+		}
+		catch(Exception e) {
+			logger.error(e.getMessage());
+			return objStdCls;
+		}
 	}
 
 	@Override
@@ -68,10 +119,11 @@ public class StudentClassesServiceImp implements IStudentClassesService {
 		
 		try{
 			repository.deleteById(studentClasses_id);
+			logger.info("StudentClass deleted!!!");
 			valor = true;
 		}
 		catch(Exception e) {
-			e.getMessage();
+			logger.error(e.getMessage());
 		}
 		return valor;
 	}

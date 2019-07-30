@@ -10,6 +10,7 @@ public interface IStudentClassesService {
 	List<StudentClassesEntity> FindAll();
 	StudentClassesEntity FindById(int studentClasses_id);
 	List<StudentClassesEntity> FindByIdClass(int class_id);
+	List<Integer> FindIdStdClassByIdClass(int class_id);
 	StudentClassesEntity update(StudentClassesEntity studentClasses);
 	boolean delete(int studentClasses_id);
 }

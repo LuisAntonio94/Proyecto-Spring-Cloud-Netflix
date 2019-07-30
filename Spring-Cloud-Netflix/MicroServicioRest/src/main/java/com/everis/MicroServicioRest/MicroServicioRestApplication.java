@@ -7,7 +7,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-//hace que su aplicación Spring Boot actúe como un cliente Eureka
+//hace que su aplicación SpringBoot actúe como un cliente Eureka
 @EnableDiscoveryClient
 @EnableEurekaClient
 @SpringBootApplication

@@ -1,7 +1,10 @@
 package com.everis.MicroServicioFeignClient.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +16,14 @@ import com.everis.MicroServicioFeignClient.repository.StudentClassesRepository;
 @Service
 public class ClassesServiceImp implements IClassesService{
 
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	ClassesRepository repository;
 	
 	@Autowired
 	StudentClassesRepository repoStudentClass;
+	
 	
 	@Override
 	public ClassesEntity save(ClassesEntity classes) {
@@ -28,38 +34,62 @@ public class ClassesServiceImp implements IClassesService{
 		
 		for (StudentClassesEntity studentClasses : lista) {
 			studentClasses.setClasses(classs);
+			lista.add(studentClasses);
 		}
 		
 		repoStudentClass.saveAll(lista);
+		logger.info("Class is inserted!!!");
 		
 		return classs;
 	}
 
+	
 	@Override
 	public List<ClassesEntity> FindAll() {
 		return repository.findAll();
 	}
 
+	
 	@Override
 	public ClassesEntity FindById(int class_id) {
-		return repository.findById(class_id).get();
+		
+		Optional<ClassesEntity> objOpt = repository.findById(class_id);
+		
+		ClassesEntity objclass = null;
+		
+		if(objOpt.isPresent())
+			objclass = repository.findById(class_id).get();
+		
+		return objclass;
 	}
 
+	
 	@Override
 	public ClassesEntity update(ClassesEntity classes) {
-		return repository.save(classes);
+		
+		try {
+			ClassesEntity cls = repository.save(classes);
+			logger.info("Class updated!!!");
+			return cls;
+		}catch(Exception e) {
+			logger.error(e.getMessage());
+			return null;
+		}
 	}
 
+	
 	@Override
 	public boolean delete(int class_id) {
+		
 		boolean valor = false;
 		
 		try{
 			repository.deleteById(class_id);
+			logger.info("Student deleted!!!");
 			valor = true;
 		}
 		catch(Exception e) {
-			e.getMessage();
+			logger.error(e.getMessage());
 		}
 		return valor;
 	}

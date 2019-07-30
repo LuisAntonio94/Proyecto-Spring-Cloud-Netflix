@@ -15,6 +15,10 @@ public class SwaggerConfig {
 
 	@Bean
 	public Docket api() {
-	return new Docket(DocumentationType.SWAGGER_2).select().apis(RequestHandlerSelectors.any()).paths(PathSelectors.any()).build();
+	return new Docket(DocumentationType.SWAGGER_2)
+			.select()
+			.apis(RequestHandlerSelectors.basePackage("com.everis.MicroServicioRest"))
+			.paths(PathSelectors.any())
+			.build();
 	}
 }

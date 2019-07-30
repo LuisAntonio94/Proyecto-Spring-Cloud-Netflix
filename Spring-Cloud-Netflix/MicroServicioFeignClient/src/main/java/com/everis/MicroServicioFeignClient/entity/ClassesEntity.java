@@ -9,6 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -23,10 +27,20 @@ public class ClassesEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int class_id;
 	
+	@Min(value =  1, message = "subject_id must be between 1 and 2 characters long")
+	@Max(value = 99, message = "subject_id must be between 1 and 2 characters long")
 	private int subject_id;
+	
+	@Min(value = 1, message = "teacher_id must be between 1 and 2 characters long")
+	@Max(value = 99, message = "teacher_id must be between 1 and 2 characters long")
 	private int teacher_id;
 	
+	@NotBlank(message = "class_code may not be blank")
+	@Size(min = 3, max = 6, message = "class_code must be between 3 and 6 characters long") 
 	private String class_code;
+	
+	@NotBlank(message = "class_name may not be blank")
+	@Size(min = 5, max = 50, message = "class_name must be between 5 and 50 characters long") 
 	private String class_name;
 	
 	@OneToMany(mappedBy = "Classes", fetch = FetchType.LAZY)
