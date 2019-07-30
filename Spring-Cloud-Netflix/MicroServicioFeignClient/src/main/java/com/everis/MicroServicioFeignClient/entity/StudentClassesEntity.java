@@ -13,6 +13,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 
@@ -31,7 +32,7 @@ public class StudentClassesEntity {
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "class_id")
-	//@JsonIgnoreProperties("studentsClasses")
+	@JsonIgnoreProperties("studentsClasses")
 	@JsonIgnore
 	private ClassesEntity Classes;
 }

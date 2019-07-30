@@ -13,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 
@@ -29,8 +30,8 @@ public class SubjectsEntity {
 	@Size(min = 5, max = 50, message = "subject_name must be between 5 and 50 characters long") 
 	private String subject_name;
 	
-	@OneToMany(mappedBy = "Subject", fetch = FetchType.LAZY)
-	//@JsonIgnoreProperties("Classes")
+	@OneToMany(mappedBy = "Subject", fetch = FetchType.LAZY, orphanRemoval = true)
+	@JsonIgnoreProperties("Classes")
 	@JsonIgnore
 	private List<ClassesEntity> Classes;
 }

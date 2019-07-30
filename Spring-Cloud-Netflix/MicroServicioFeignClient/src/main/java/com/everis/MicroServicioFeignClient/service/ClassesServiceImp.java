@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.everis.MicroServicioFeignClient.entity.ClassesEntity;
-import com.everis.MicroServicioFeignClient.entity.StudentClassesEntity;
 import com.everis.MicroServicioFeignClient.repository.ClassesRepository;
 import com.everis.MicroServicioFeignClient.repository.StudentClassesRepository;
 
@@ -27,7 +26,7 @@ public class ClassesServiceImp implements IClassesService{
 	
 	@Override
 	public ClassesEntity save(ClassesEntity classes) {
-		
+		/*
 		ClassesEntity classs = repository.save(classes);
 		
 		List<StudentClassesEntity> lista = classes.getStudentsClasses();
@@ -40,13 +39,13 @@ public class ClassesServiceImp implements IClassesService{
 		repoStudentClass.saveAll(lista);
 		logger.info("Class is inserted!!!");
 		
-		/*
+		*/
 		ClassesEntity classs = repository.save(classes);
 		
 		classes.getStudentsClasses().forEach(StudentClassesEntity -> StudentClassesEntity.setClasses(classs));
 		
 		repoStudentClass.saveAll(classes.getStudentsClasses());
-		*/
+		
 		return classs;
 	}
 

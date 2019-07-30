@@ -16,6 +16,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 
@@ -28,23 +29,16 @@ public class ClassesEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int class_id;
 	
-	//@Min(value =  1, message = "subject_id must be between 1 and 2 characters long")
-	//@Max(value = 99, message = "subject_id must be between 1 and 2 characters long")
-	//private int subject_id;
-	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "subject_id")
-	//@JsonIgnoreProperties("Subject")
+	@JsonIgnoreProperties("Subject")
 	@JsonIgnore
 	private SubjectsEntity Subject;
 	
-	//@Min(value = 1, message = "teacher_id must be between 1 and 2 characters long")
-	//@Max(value = 99, message = "teacher_id must be between 1 and 2 characters long")
-	//private int teacher_id;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "teacher_id")
-	//@JsonIgnoreProperties("Classes")
+	@JsonIgnoreProperties("Classes")
 	@JsonIgnore
 	private TeachersEntity Teacher;
 	
@@ -57,8 +51,8 @@ public class ClassesEntity {
 	@Size(min = 5, max = 50, message = "class_name must be between 5 and 50 characters long") 
 	private String class_name;
 	
-	@OneToMany(mappedBy = "Classes", fetch = FetchType.LAZY)
-	//@JsonIgnoreProperties("Classes")
+	@OneToMany(mappedBy = "Classes", fetch = FetchType.LAZY, orphanRemoval = true)
+	@JsonIgnoreProperties("Classes")
 	@JsonIgnore
 	private List<StudentClassesEntity> studentsClasses;
 }

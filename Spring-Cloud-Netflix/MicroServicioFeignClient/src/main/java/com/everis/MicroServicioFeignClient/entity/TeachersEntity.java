@@ -13,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 
@@ -45,8 +46,8 @@ public class TeachersEntity {
 	@Size(min = 2, max = 50, message = "other_teacher_details must be between 2 and 50 characters long") 
 	private String other_teacher_details;
 	
-	@OneToMany(mappedBy = "Teacher", fetch = FetchType.LAZY)
-	//@JsonIgnoreProperties("Classes")
+	@OneToMany(mappedBy = "Teacher", fetch = FetchType.LAZY, orphanRemoval = true)
+	@JsonIgnoreProperties("Classes")
 	@JsonIgnore
 	private List<ClassesEntity> Classes;
 }
